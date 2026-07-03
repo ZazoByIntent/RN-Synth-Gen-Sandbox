@@ -4,6 +4,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import geopandas as gpd
+    import networkx as nx
 
 Bbox = tuple[float, float, float, float]
 """Bounding box as (min_lon, min_lat, max_lon, max_lat)."""
@@ -68,9 +73,9 @@ class CleanTrajectory:
     bbox: Bbox
     duration_s: float
     length_m: float
-    mean_speed: float
+    mean_speed: float  # metres per second
     cleaning_flags: tuple[str, ...]
-    split: str  # "train" | "test" | "shadow" | "attack"
+    split: str  # "unassigned" until splitting (P3), then "train" | "test" | "shadow" | "attack"
 
 
 @dataclass(frozen=True, slots=True)
@@ -152,8 +157,15 @@ class ExperimentConfig:
     created_at: datetime
 
 
+@dataclass(frozen=True, slots=True)
 class RoadNetwork:
-    """Road graph plus edge/node tables; skeletal until P1 (OSM map source)."""
+    """Road graph plus node/edge tables, in the map's projected CRS."""
+
+    graph: nx.MultiDiGraph[int]  # nodes keyed by OSM node id
+    nodes: gpd.GeoDataFrame
+    edges: gpd.GeoDataFrame
+    crs: str
+    region: str
 
 
 class TrajectoryView:

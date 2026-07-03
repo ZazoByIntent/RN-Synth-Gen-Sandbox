@@ -24,3 +24,6 @@ maps/**
 # Experiment outputs
 results/
 reports/
+
+# OSMnx HTTP response cache
+cache/

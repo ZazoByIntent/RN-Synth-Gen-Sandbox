@@ -1,0 +1,371 @@
+{
+  "source_url": "https://download.microsoft.com/download/F/4/8/F4894AA5-FDBC-481E-9285-D5F8C4C4F039/Geolife%20Trajectories%201.3.zip",
+  "license": "Geolife Trajectories 1.3, Microsoft Research; MSR-LA, research use only.",
+  "area_west_south_east_north": [
+    116.3,
+    39.97,
+    116.34,
+    40.0
+  ],
+  "created": "2026-07-03",
+  "cleaning_defaults": {
+    "max_speed_kmh": 200.0,
+    "min_points": 20,
+    "min_length_m": 500.0,
+    "resample_s": 5.0
+  },
+  "resampled_flag": "resampled",
+  "speed_filtered_flag": "speed_filtered",
+  "files": [
+    {
+      "file": "Data/000/Trajectory/20081110013637.plt",
+      "traj_id": "000_20081110013637",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20081110013637.plt",
+      "category": "spike",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.997726,
+        "lon": 116.32648,
+        "time": "2008-11-10T01:36:37"
+      },
+      "max_raw_segment_speed_kmh": 254.2,
+      "expected": "kept",
+      "expected_flags": [
+        "speed_filtered"
+      ]
+    },
+    {
+      "file": "Data/000/Trajectory/20081112023003.plt",
+      "traj_id": "000_20081112023003",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20081112023003.plt",
+      "category": "slow",
+      "n_data_lines": 60,
+      "first_point": {
+        "lat": 39.995805,
+        "lon": 116.326236,
+        "time": "2008-11-12T02:30:03"
+      },
+      "max_raw_segment_speed_kmh": 17.0,
+      "expected": "dropped_min_length",
+      "expected_flags": []
+    },
+    {
+      "file": "Data/000/Trajectory/20081114101436.plt",
+      "traj_id": "000_20081114101436",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20081114101436.plt",
+      "category": "spike",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.998875,
+        "lon": 116.324514,
+        "time": "2008-11-14T10:14:36"
+      },
+      "max_raw_segment_speed_kmh": 336.0,
+      "expected": "kept",
+      "expected_flags": [
+        "speed_filtered"
+      ]
+    },
+    {
+      "file": "Data/000/Trajectory/20090516091038.plt",
+      "traj_id": "000_20090516091038",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20090516091038.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.999926,
+        "lon": 116.327377,
+        "time": "2009-05-16T09:10:38"
+      },
+      "max_raw_segment_speed_kmh": 11.5,
+      "expected": "kept",
+      "expected_flags": []
+    },
+    {
+      "file": "Data/000/Trajectory/20090521231053.plt",
+      "traj_id": "000_20090521231053",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20090521231053.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.994668,
+        "lon": 116.325454,
+        "time": "2009-05-21T23:10:53"
+      },
+      "max_raw_segment_speed_kmh": 99.2,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/000/Trajectory/20090702022530.plt",
+      "traj_id": "000_20090702022530",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20090702022530.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.996603,
+        "lon": 116.30824,
+        "time": "2009-07-02T02:25:30"
+      },
+      "max_raw_segment_speed_kmh": 42.4,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/000/Trajectory/20090703002800.plt",
+      "traj_id": "000_20090703002800",
+      "user_id": "000",
+      "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20090703002800.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.99609,
+        "lon": 116.309392,
+        "time": "2009-07-03T00:28:00"
+      },
+      "max_raw_segment_speed_kmh": 20.5,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081026081229.plt",
+      "traj_id": "001_20081026081229",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081026081229.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.97358,
+        "lon": 116.327144,
+        "time": "2008-10-26T08:12:29"
+      },
+      "max_raw_segment_speed_kmh": 49.5,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081027111634.plt",
+      "traj_id": "001_20081027111634",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081027111634.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.978092,
+        "lon": 116.326801,
+        "time": "2008-10-27T11:16:34"
+      },
+      "max_raw_segment_speed_kmh": 82.9,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081028102805.plt",
+      "traj_id": "001_20081028102805",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081028102805.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.977886,
+        "lon": 116.32434,
+        "time": "2008-10-28T10:28:05"
+      },
+      "max_raw_segment_speed_kmh": 79.5,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081028235048.plt",
+      "traj_id": "001_20081028235048",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081028235048.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.993815,
+        "lon": 116.327522,
+        "time": "2008-10-28T23:50:48"
+      },
+      "max_raw_segment_speed_kmh": 84.9,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081029110529.plt",
+      "traj_id": "001_20081029110529",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081029110529.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.978107,
+        "lon": 116.326569,
+        "time": "2008-10-29T11:05:29"
+      },
+      "max_raw_segment_speed_kmh": 154.2,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081103133204.plt",
+      "traj_id": "001_20081103133204",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081103133204.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.978833,
+        "lon": 116.327198,
+        "time": "2008-11-03T13:32:04"
+      },
+      "max_raw_segment_speed_kmh": 40.2,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081104054859.plt",
+      "traj_id": "001_20081104054859",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081104054859.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.978216,
+        "lon": 116.325524,
+        "time": "2008-11-04T05:48:59"
+      },
+      "max_raw_segment_speed_kmh": 82.4,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081105110052.plt",
+      "traj_id": "001_20081105110052",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081105110052.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.976724,
+        "lon": 116.3274,
+        "time": "2008-11-05T11:00:52"
+      },
+      "max_raw_segment_speed_kmh": 60.7,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081106051423.plt",
+      "traj_id": "001_20081106051423",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081106051423.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.974725,
+        "lon": 116.312378,
+        "time": "2008-11-06T05:14:23"
+      },
+      "max_raw_segment_speed_kmh": 59.8,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081106133604.plt",
+      "traj_id": "001_20081106133604",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081106133604.plt",
+      "category": "kept",
+      "n_data_lines": 150,
+      "first_point": {
+        "lat": 39.976986,
+        "lon": 116.327543,
+        "time": "2008-11-06T13:36:04"
+      },
+      "max_raw_segment_speed_kmh": 98.5,
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
+    },
+    {
+      "file": "Data/001/Trajectory/20081111114304.plt",
+      "traj_id": "001_20081111114304",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081111114304.plt",
+      "category": "short",
+      "n_data_lines": 10,
+      "first_point": {
+        "lat": 39.978228,
+        "lon": 116.327541,
+        "time": "2008-11-11T11:43:04"
+      },
+      "max_raw_segment_speed_kmh": 32.8,
+      "expected": "dropped_min_points",
+      "expected_flags": []
+    },
+    {
+      "file": "Data/001/Trajectory/20081114130723.plt",
+      "traj_id": "001_20081114130723",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081114130723.plt",
+      "category": "short",
+      "n_data_lines": 10,
+      "first_point": {
+        "lat": 39.977659,
+        "lon": 116.327832,
+        "time": "2008-11-14T13:07:23"
+      },
+      "max_raw_segment_speed_kmh": 56.1,
+      "expected": "dropped_min_points",
+      "expected_flags": []
+    },
+    {
+      "file": "Data/001/Trajectory/20081117042454.plt",
+      "traj_id": "001_20081117042454",
+      "user_id": "001",
+      "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081117042454.plt",
+      "category": "short",
+      "n_data_lines": 10,
+      "first_point": {
+        "lat": 39.978498,
+        "lon": 116.326307,
+        "time": "2008-11-17T04:24:54"
+      },
+      "max_raw_segment_speed_kmh": 141.0,
+      "expected": "dropped_min_points",
+      "expected_flags": []
+    }
+  ]
+}

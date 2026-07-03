@@ -1,5 +1,6 @@
-"""Map Manager layer: MapSource interface; OSM implementation arrives in P1."""
+"""Map Manager layer: MapSource interface and the OSMnx-backed implementation."""
 
 from trajguard.maps.base import MapSource
+from trajguard.maps.osm import OSMMapSource
 
-__all__ = ["MapSource"]
+__all__ = ["MapSource", "OSMMapSource"]

@@ -4,13 +4,19 @@ version = "0.1.0"
 description = "Trajectory privacy attack & protection benchmark."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "numpy>=2.4.6",
+    "osmnx>=2.1",
+    "pyarrow>=24.0.0",
+]
 
 [dependency-groups]
 dev = [
     "mypy>=1.10",
     "pytest>=8.0",
     "ruff>=0.5",
+    "types-geopandas>=1.1.4.20260628",
+    "types-networkx>=3.6.1.20260624",
 ]
 
 [build-system]

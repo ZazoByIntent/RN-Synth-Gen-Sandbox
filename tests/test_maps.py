@@ -1,12 +1,17 @@
 """Tests for OSMMapSource load/save against the committed Beijing slice."""
 
+import json
 from pathlib import Path
+
+import pytest
 
 from trajguard.experiments import registry
 from trajguard.maps import OSMMapSource
 
-FIXTURE_MAPS = Path(__file__).parent / "fixtures" / "maps"
-AREA = (116.30, 39.97, 116.34, 40.00)  # west, south, east, north
+FIXTURES = Path(__file__).parent / "fixtures"
+FIXTURE_MAPS = FIXTURES / "maps"
+MANIFEST = json.loads((FIXTURES / "geolife" / "MANIFEST.json").read_text(encoding="utf-8"))
+AREA = tuple(MANIFEST["area_west_south_east_north"])  # single source of truth
 
 
 def _source(maps_dir: Path) -> OSMMapSource:
@@ -40,3 +45,13 @@ def test_save_and_reload_round_trip(tmp_path: Path) -> None:
     assert reloaded.graph.number_of_edges() == net.graph.number_of_edges()
     assert len(reloaded.nodes) == len(net.nodes)
     assert len(reloaded.edges) == len(net.edges)
+
+
+def test_load_rejects_cached_graph_with_wrong_crs(tmp_path: Path) -> None:
+    net = _source(FIXTURE_MAPS).load()
+    mislabelled = net.graph.copy()
+    mislabelled.graph["crs"] = "EPSG:4326"
+    target = _source(tmp_path)
+    target.save(mislabelled)
+    with pytest.raises(ValueError, match="CRS"):
+        target.load()

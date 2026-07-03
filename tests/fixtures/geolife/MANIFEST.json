@@ -40,18 +40,16 @@
       "traj_id": "000_20081112023003",
       "user_id": "000",
       "source_member": "Geolife Trajectories 1.3/Data/000/Trajectory/20081112023003.plt",
-      "category": "kept",
-      "n_data_lines": 150,
+      "category": "slow",
+      "n_data_lines": 60,
       "first_point": {
         "lat": 39.995805,
         "lon": 116.326236,
         "time": "2008-11-12T02:30:03"
       },
       "max_raw_segment_speed_kmh": 17.0,
-      "expected": "kept",
-      "expected_flags": [
-        "resampled"
-      ]
+      "expected": "dropped_min_length",
+      "expected_flags": []
     },
     {
       "file": "Data/000/Trajectory/20081114101436.plt",
@@ -308,16 +306,18 @@
       "traj_id": "001_20081106133604",
       "user_id": "001",
       "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081106133604.plt",
-      "category": "short",
-      "n_data_lines": 10,
+      "category": "kept",
+      "n_data_lines": 150,
       "first_point": {
         "lat": 39.976986,
         "lon": 116.327543,
         "time": "2008-11-06T13:36:04"
       },
       "max_raw_segment_speed_kmh": 98.5,
-      "expected": "dropped_min_points",
-      "expected_flags": []
+      "expected": "kept",
+      "expected_flags": [
+        "resampled"
+      ]
     },
     {
       "file": "Data/001/Trajectory/20081111114304.plt",
@@ -356,15 +356,15 @@
       "traj_id": "001_20081117042454",
       "user_id": "001",
       "source_member": "Geolife Trajectories 1.3/Data/001/Trajectory/20081117042454.plt",
-      "category": "slow",
-      "n_data_lines": 30,
+      "category": "short",
+      "n_data_lines": 10,
       "first_point": {
         "lat": 39.978498,
         "lon": 116.326307,
         "time": "2008-11-17T04:24:54"
       },
       "max_raw_segment_speed_kmh": 141.0,
-      "expected": "dropped",
+      "expected": "dropped_min_points",
       "expected_flags": []
     }
   ]

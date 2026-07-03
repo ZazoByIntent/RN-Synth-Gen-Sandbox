@@ -5,8 +5,9 @@ MSR-LA research-use license) and a small OSM slice of Haidian, Beijing via
 Overpass, then writes the committed fixtures:
 
 - ``geolife/Data/<uid>/Trajectory/*.plt`` — ~20 truncated *real* trajectories:
-  dense kept tracks, too-short tracks, a too-slow/short-length track, and
-  tracks with a natural GPS speed spike.
+  dense kept tracks, too-short tracks, a stay-point track that keeps enough
+  points but covers too little distance (min_length_m rejection), and tracks
+  with a natural GPS speed spike.
 - ``geolife/MANIFEST.json`` — per-file provenance and the expected ``clean()``
   outcome the tests assert against.
 - ``maps/beijing/graph.graphml`` (+ Parquet sidecars) — drive network for the
@@ -20,6 +21,7 @@ from __future__ import annotations
 
 import io
 import json
+import shutil
 import sys
 import zipfile
 from dataclasses import dataclass
@@ -32,6 +34,8 @@ from trajguard.datasets.cleaning import (
     RESAMPLED,
     SPEED_FILTERED,
     CleaningConfig,
+    _filter_speed,
+    _resample,
     clean,
     haversine_m,
 )
@@ -48,7 +52,7 @@ AREA = (116.30, 39.97, 116.34, 40.00)
 HEADER_LINES = 6
 TRUNC_LINES = 150  # kept/spike fixtures: first N data lines
 SHORT_LINES = 10  # below min_points=20 even before thinning
-SLOW_LINES = 30  # enough points, but a slow walk short of min_length_m
+SLOW_WINDOWS = (60, 80, 100)  # candidate prefixes for a stay-point/min_length reject
 QUOTAS = {"kept": 14, "spike": 2, "short": 3, "slow": 1}
 MAX_SCAN_USERS = 60
 
@@ -118,17 +122,34 @@ def _classify(cand: Candidate, quotas: dict[str, int]) -> tuple[str, int] | None
         return ("spike", TRUNC_LINES)
     if not _in_area(trunc):
         return None
+    if quotas["slow"]:
+        # Before the kept-quality gate: a stay-point track fails clean() on its
+        # full prefix, yet a window of it is exactly the min_length_m reject case.
+        n_lines = _slow_window(cand)
+        if n_lines is not None:
+            return ("slow", n_lines)
     if result is None or SPEED_FILTERED in result.cleaning_flags:
         return None
     if quotas["kept"]:
         return ("kept", TRUNC_LINES)
     if quotas["short"]:
         return ("short", SHORT_LINES)
-    if quotas["slow"]:
-        slow = _parse_lines(cand.data_lines[:SLOW_LINES])
-        slow_result = clean(_raw(slow, cand.member), CFG)
-        if slow_result is None and len(slow) >= CFG.min_points:
-            return ("slow", SLOW_LINES)
+    return None
+
+
+def _pipeline(points: list[Point]) -> tuple[Point, ...]:
+    return _resample(_filter_speed(tuple(points), CFG.max_speed_kmh, []), CFG.resample_s, [])
+
+
+def _slow_window(cand: Candidate) -> int | None:
+    """Smallest prefix that keeps >= min_points after cleaning yet fails min_length."""
+    for n_lines in SLOW_WINDOWS:
+        if n_lines > len(cand.data_lines):
+            return None
+        prefix = _parse_lines(cand.data_lines[:n_lines])
+        after = _pipeline(prefix)
+        if len(after) >= CFG.min_points and clean(_raw(prefix, cand.member), CFG) is None:
+            return n_lines
     return None
 
 
@@ -136,7 +157,10 @@ def _expected_outcome(points: list[Point], traj_id: str) -> tuple[str, list[str]
     result = clean(_raw(points, traj_id), CFG)
     if result is not None:
         return ("kept", list(result.cleaning_flags))
-    return ("dropped_min_points" if len(points) < CFG.min_points else "dropped", [])
+    # The drop reason depends on the point count *after* filtering/thinning.
+    if len(_pipeline(points)) < CFG.min_points:
+        return ("dropped_min_points", [])
+    return ("dropped_min_length", [])
 
 
 def _iter_candidates(zf: zipfile.ZipFile) -> list[Candidate]:
@@ -165,6 +189,7 @@ def build_geolife(zip_path: Path) -> None:
     """Select fixtures from the Geolife zip and write .plt files + manifest."""
     quotas = dict(QUOTAS)
     manifest_files = []
+    shutil.rmtree(FIXTURE_ROOT / "geolife" / "Data", ignore_errors=True)
     with zipfile.ZipFile(zip_path) as zf:
         for cand in _iter_candidates(zf):
             if not any(quotas.values()):

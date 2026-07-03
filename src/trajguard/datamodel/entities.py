@@ -73,9 +73,9 @@ class CleanTrajectory:
     bbox: Bbox
     duration_s: float
     length_m: float
-    mean_speed: float
+    mean_speed: float  # metres per second
     cleaning_flags: tuple[str, ...]
-    split: str  # "train" | "test" | "shadow" | "attack"
+    split: str  # "unassigned" until splitting (P3), then "train" | "test" | "shadow" | "attack"
 
 
 @dataclass(frozen=True, slots=True)

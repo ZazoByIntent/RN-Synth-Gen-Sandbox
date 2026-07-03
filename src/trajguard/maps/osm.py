@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from osmnx import convert, graph, io, projection
+from pyproj import CRS
 
 from trajguard.datamodel import Bbox, RoadNetwork
 from trajguard.experiments.registry import register
@@ -51,22 +52,33 @@ class OSMMapSource(MapSource):
         return self.maps_dir / self.region / "graph.graphml"
 
     def load(self) -> RoadNetwork:
-        """Load the cached network, downloading and saving it first if absent."""
+        """Load the cached network, downloading and saving it first if absent.
+
+        Raises ValueError if a cached graph's CRS does not match the configured
+        one — a stale or foreign cache must fail loudly, not load silently.
+        """
         if self.graphml_path.exists():
             g = io.load_graphml(self.graphml_path)
+            cached_crs = g.graph.get("crs")
+            if cached_crs is None or not CRS(str(cached_crs)).equals(CRS(self._crs)):
+                raise ValueError(
+                    f"cached graph {self.graphml_path} has CRS {cached_crs!r}, "
+                    f"but this source is configured for {self._crs!r}"
+                )
+            nodes, edges = convert.graph_to_gdfs(g)
         else:
             g = self._download()
-            self.save(g)
-        nodes, edges = convert.graph_to_gdfs(g)
+            nodes, edges = self.save(g)
         return RoadNetwork(graph=g, nodes=nodes, edges=edges, crs=self._crs, region=self.region)
 
-    def save(self, g: nx.MultiDiGraph[int]) -> None:
-        """Persist a projected graph as GraphML plus node/edge Parquet tables."""
+    def save(self, g: nx.MultiDiGraph[int]) -> tuple[gpd.GeoDataFrame, gpd.GeoDataFrame]:
+        """Persist a graph as GraphML + Parquet; return its (nodes, edges) tables."""
         self.graphml_path.parent.mkdir(parents=True, exist_ok=True)
         io.save_graphml(g, self.graphml_path)
         nodes, edges = convert.graph_to_gdfs(g)
         _to_parquet(nodes, self.graphml_path.parent / "nodes.parquet")
         _to_parquet(edges, self.graphml_path.parent / "edges.parquet")
+        return nodes, edges
 
     def _download(self) -> nx.MultiDiGraph[int]:
         g = graph.graph_from_bbox(self.bbox, network_type=self.network_type)

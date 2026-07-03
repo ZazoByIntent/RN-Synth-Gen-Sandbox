@@ -8,7 +8,13 @@ import pytest
 
 from trajguard.datamodel import RawTrajectory
 from trajguard.datasets import CleaningConfig, GeolifeLoader, clean
-from trajguard.datasets.cleaning import SPEED_FILTERED, haversine_m
+from trajguard.datasets.cleaning import (
+    SPEED_FILTERED,
+    _filter_speed,
+    _path_length_m,
+    _resample,
+    haversine_m,
+)
 
 FIXTURE_ROOT = Path(__file__).parent / "fixtures" / "geolife"
 MANIFEST = json.loads((FIXTURE_ROOT / "MANIFEST.json").read_text(encoding="utf-8"))
@@ -68,6 +74,24 @@ def test_kept_tracks_are_resampled_and_long_enough(
         assert west <= east and south <= north
         for a, b in pairwise(result.points):
             assert (b.t - a.t).total_seconds() >= CFG.resample_s
+
+
+def test_all_rejection_reasons_are_covered() -> None:
+    expected = {f["expected"] for f in MANIFEST["files"]}
+    assert {"kept", "dropped_min_points", "dropped_min_length"} <= expected
+
+
+def test_min_length_rejection_is_genuinely_about_length(
+    trajectories: dict[str, RawTrajectory],
+) -> None:
+    entries = [f for f in MANIFEST["files"] if f["expected"] == "dropped_min_length"]
+    assert entries, "fixture must contain a min_length_m rejection"
+    for entry in entries:
+        raw = trajectories[entry["traj_id"]]
+        after = _resample(_filter_speed(raw.points, CFG.max_speed_kmh, []), CFG.resample_s, [])
+        assert len(after) >= CFG.min_points  # enough points survive ...
+        assert _path_length_m(after) < CFG.min_length_m  # ... so length is the reason
+        assert clean(raw, CFG) is None
 
 
 def test_clean_is_deterministic(trajectories: dict[str, RawTrajectory]) -> None:

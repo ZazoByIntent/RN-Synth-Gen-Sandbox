@@ -50,16 +50,18 @@ class GeolifeLoader(DatasetLoader):
                 line = raw_line.strip()
                 if not line:
                     continue
-                lat, lon, _, alt_ft, _, date, time = line.split(",")
-                altitude = float(alt_ft)
-                points.append(
-                    Point(
+                try:
+                    lat, lon, _, alt_ft, _, date, time = line.split(",")
+                    altitude = float(alt_ft)
+                    point = Point(
                         lat=float(lat),
                         lon=float(lon),
                         t=datetime.fromisoformat(f"{date}T{time}"),
                         alt=None if altitude == _INVALID_ALTITUDE_FT else altitude * _FEET_TO_M,
                     )
-                )
+                except ValueError as exc:
+                    raise ValueError(f"{path}:{lineno + 1}: malformed .plt line {line!r}") from exc
+                points.append(point)
         if not points:
             raise ValueError(f"no GPS points in {path}")
         return RawTrajectory(

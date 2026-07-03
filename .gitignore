@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+
+# Tooling caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data: raw is immutable and never committed; the rest are regenerable caches.
+data/**
+!data/**/
+!data/**/.gitkeep
+
+# Built road networks (expensive OSM artefacts, not source)
+maps/**
+!maps/.gitkeep
+
+# Experiment outputs
+results/
+reports/

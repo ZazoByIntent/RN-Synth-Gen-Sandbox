@@ -252,9 +252,18 @@ def build_geolife(zip_path: Path) -> None:
 
 
 def build_map_slice() -> None:
-    """Download the fixture-area drive network via OSMMapSource (real code path)."""
+    """Download the fixture-area network via OSMMapSource (real code path).
+
+    network_type="all": Geolife is mixed-mode (walk/bike/bus/car) — matching
+    against a drive-only graph leaves pedestrian tracks 30-80 m off-road (P2
+    calibration finding), so footpaths must be part of the network.
+    """
     source = OSMMapSource(
-        region="beijing", bbox=AREA, crs="EPSG:32650", maps_dir=FIXTURE_ROOT / "maps"
+        region="beijing",
+        bbox=AREA,
+        crs="EPSG:32650",
+        network_type="all",
+        maps_dir=FIXTURE_ROOT / "maps",
     )
     net = source.load()
     print(f"map slice: {len(net.nodes)} nodes, {len(net.edges)} edges -> {source.graphml_path}")

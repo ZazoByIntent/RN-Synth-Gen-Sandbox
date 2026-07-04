@@ -5,6 +5,7 @@ description = "Trajectory privacy attack & protection benchmark."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "leuvenmapmatching>=1.1.4",
     "numpy>=2.4.6",
     "osmnx>=2.1",
     "pyarrow>=24.0.0",
@@ -18,6 +19,11 @@ dev = [
     "ruff>=0.5",
     "types-geopandas>=1.1.4.20260628",
     "types-networkx>=3.6.1.20260624",
+]
+notebooks = [
+    "ipykernel>=7.3.0",
+    "matplotlib>=3.11.0",
+    "nbconvert>=7.17.1",
 ]
 
 [build-system]
@@ -38,6 +44,10 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 python_version = "3.11"
 strict = true
 files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["leuvenmapmatching.*"]
+ignore_missing_imports = true  # no py.typed marker (v1.1.4)
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
